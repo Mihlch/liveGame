@@ -5,6 +5,8 @@ class kletka(object):
         s.self = s
     def sost(self):
         return s.self
+    def izsost(self, n):
+        s.self = n
     def sosed(self, n):
         if n == 5:
             n = 9
@@ -22,20 +24,32 @@ class kletka(object):
             y = y.self + 1
         return x, y
 
+class pole(object):
+    def __init__(self, x, y):
+        stolb.self = []
+        pole.self = []
+        for i in rnge(y):
+            stolb.self.append(0)
+        for i in range(x):
+            pole.append(stolb.self)
+
 
 def Hod(self, masiz, maspe):
     sk = 0
     x = 0
     y = 0
     for a in masiz:
-        for b in i:
+        for b in a:
             for c in range(8):
                 x, y = b.sosed(c)
                 if masiz[x][y].sost() == 1:
                     sk += 1
+            if b.sost() == 0:
+                if sk >= 3:
+                    maspe[x][y].izsost(1)
+            else:
+                if sk <4 and sk >1:
+                    maspe[x][y].izsost(0)
+            sk = 0
 
-        sk = 0
 
-
-if __name__ == '__main__':
-    print(123)
