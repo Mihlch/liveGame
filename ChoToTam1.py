@@ -1,55 +1,85 @@
-class kletka(object):
+from random import random
+from pprint import pprint as pp
+
+import pygame
+
+game = True
+
+class Kletka(object):
     def __init__(self, x, y, s):
-        x.self = x
-        y.self = y
-        s.self = s
+        self.x = x
+        self.y = y
+        self.sold = s
+        self.snew = s
+
     def sost(self):
-        return s.self
-    def izsost(self, n):
-        s.self = n
-    def sosed(self, n):
-        if n == 5:
-            n = 9
-        if n%3 == 1:
-            x = x.self -1
-        elif n == 2 or n == 8:
-            x = x.self
-        else:
-            x = x.self + 1
-        if n < 4:
-            y = y.self - 1
-        elif n < 7:
-            y = y.self
-        else:
-            y = y.self + 1
-        return x, y
+        return self.solbd
 
-class pole(object):
+    def next_sost(self, n):
+        self.snew = n
+
+    def old_to_new(self):
+        self.sold = self.snew
+
+    def cord(self):
+        return self.x, self.y
+
+
+class Pole(object):
+
+
     def __init__(self, x, y):
-        stolb.self = []
-        pole.self = []
-        for i in rnge(y):
-            stolb.self.append(0)
-        for i in range(x):
-            pole.append(stolb.self)
+        self.width = x
+        self.height = y
+        self.kletki = []
+        for i in range(self.height):
+            self.kletki.append([])
+            for j in range(self.width):
+                self.kletki[i].append(Kletka(j, i, False))
+        #pp(self.kletki)
+
+    def sosed(self, corde):
+        s = 0
+        x = corde[0]
+        y = corde[1]
+        s += self.kletki[(x + 1) % self.width][(y + 1) % self.height].sost()
+        s += self.kletki[(x + 1) % self.width][(y - 1) % self.height].sost()
+        s += self.kletki[(x + 1) % self.width][y].sost()
+        s += self.kletki[(x - 1) % self.width][(y - 1) % self.height].sost()
+        s += self.kletki[(x - 1) % self.width][(y + 1) % self.height].sost()
+        s += self.kletki[(x - 1) % self.width][y].sost()
+        s += self.kletki[x][(y + 1) % self.height].sost()
+        s += self.kletki[x][(y - 1) % self.height].sost()
+        return s
 
 
-def Hod(self, masiz, maspe):
-    sk = 0
-    x = 0
-    y = 0
-    for a in masiz:
-        for b in a:
-            for c in range(8):
-                x, y = b.sosed(c)
-                if masiz[x][y].sost() == 1:
-                    sk += 1
-            if b.sost() == 0:
-                if sk >= 3:
-                    maspe[x][y].izsost(1)
-            else:
-                if sk <4 and sk >1:
-                    maspe[x][y].izsost(0)
-            sk = 0
+    def hod(self):
+        schizm = 0
+        for a in self.kletki:
+            for b in a:
+                sosedi = self.sosed(b.cord())
+                if b.sost() == 0:
+                    if sosedi >= 3:
+                        b.next_sost(1)
+                        schizm += 1
+                else:
+                    if sosedi < 4 and sk > 1:
+                        b.izsost(0)
+                        schizm += 1
+        for a in self.kletki:
+            for b in a:
+                b.old_to_new()
 
+        global game
+        if schizm == 0:
+            game = False
+
+
+While(True):
+a = True
+    while(a):
+        a = False
+    while(game):
+        game_pole = Pole(30, 30)
+        game_pole.hod()
 
