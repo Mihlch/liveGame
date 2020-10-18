@@ -13,7 +13,7 @@ class Kletka(object):
         self.snew = s
 
     def sost(self):
-        return self.solbd
+        return self.sold
 
     def next_sost(self, n):
         self.snew = n
@@ -74,12 +74,11 @@ class Pole(object):
         if schizm == 0:
             game = False
 
+    def wifth_and_height(self):
+        return self.width, self.height
 
-While(True):
-a = True
-    while(a):
-        a = False
-    while(game):
-        game_pole = Pole(30, 30)
-        game_pole.hod()
+    def kletka(self, x, y):
+        return self.kletki[x][y]
+
+
 
