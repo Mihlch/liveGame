@@ -5,8 +5,8 @@ import pygame
 from ChoToTam1 import Pole
 
 
-game = True
-fps = 0.1
+game = 1
+fps = 1
 
 class GUI:
     def __init__(self):
@@ -34,23 +34,41 @@ class GUI:
 
     def event(self):
         global fps
+        global game
         for i in pygame.event.get():
             if i.type == pygame.QUIT:
                 exit()
             elif i.type == pygame.KEYDOWN:
                 if i.key == pygame.K_UP:
                     fps += 0.1
-                elif i.key == pygame.K_DOWN:
+                if i.key == pygame.K_DOWN:
                     fps -= 0.1
-                elif i.key == pygame.K_SPACE:
-                    fps = 0
+                if i.key == pygame.K_RIGHT:
+                    gui.p()
+                    gui.hod()
+                if i.key == pygame.K_SPACE:
+                    game *= -1
+            if i.type == pygame.MOUSEBUTTONDOWN:
+                if i.button == 1:
+                    pos = pygame.mouse.get_pos()
+                    y = pos[1] // 18
+                    x =pos[0] // 18
+                    sos = 0
+                    if self.game_pole.kletka(y, x).sost() == 0:
+                        sos = 1
+                    self.game_pole.kletka(y, x).next_sost(sos)
+                    self.game_pole.kletka(y, x).old_to_new()
+                    gui.p()
 
 
 if __name__ == '__main__':
     pause = pygame.time.Clock()
     gui = GUI()
-    while (game):
-        gui.p()
-        gui.hod()
+    gui.p()
+    while (True):
         gui.event()
-        pause.tick(fps)
+        if game > 0:
+            gui.hod()
+            gui.p()
+            pause.tick(fps)
+

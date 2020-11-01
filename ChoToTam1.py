@@ -35,13 +35,13 @@ class Pole(object):
         for i in range(self.height):
             self.kletki.append([])
             for j in range(self.width):
-                self.kletki[i].append(Kletka(j, i, random.randint(0, 1)))
+                self.kletki[i].append(Kletka(j, i, 0))
         #pp(self.kletki)
 
     def sosed(self, corde):
         s = 0
-        x = corde[0]
-        y = corde[1]
+        x = corde[1]
+        y = corde[0]
         s += self.kletki[(x + 1) % self.height][(y + 1) % self.width].sost()
         s += self.kletki[(x + 1) % self.height][(y - 1) % self.width].sost()
         s += self.kletki[(x + 1) % self.height][y].sost()
@@ -59,7 +59,7 @@ class Pole(object):
             for b in a:
                 sosedi = self.sosed(b.cord())
                 if b.sost() == 0:
-                    if sosedi >= 3:
+                    if sosedi == 3:
                         b.next_sost(1)
                         schizm += 1
                 else:
@@ -72,7 +72,7 @@ class Pole(object):
 
         global game
         if schizm == 0:
-            game = False
+            game = -1
 
     def wifth_and_height(self):
         return self.width, self.height
