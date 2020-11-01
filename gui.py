@@ -59,6 +59,12 @@ class GUI:
                     self.game_pole.kletka(y, x).next_sost(sos)
                     self.game_pole.kletka(y, x).old_to_new()
                     gui.p()
+                if i.button == 3:
+                    for x in range(self.width):
+                        for y in range(self.height):
+                            self.game_pole.kletka(y, x).next_sost(0)
+                            self.game_pole.kletka(y, x).old_to_new()
+                    gui.p()
 
 
 if __name__ == '__main__':
