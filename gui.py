@@ -5,7 +5,7 @@ import pygame
 from ChoToTam1 import Pole
 
 
-game = 1
+game = -1
 fps = 1
 
 class GUI:
@@ -44,15 +44,15 @@ class GUI:
                 if i.key == pygame.K_DOWN:
                     fps -= 0.1
                 if i.key == pygame.K_RIGHT:
-                    gui.p()
                     gui.hod()
+                    gui.p()
                 if i.key == pygame.K_SPACE:
                     game *= -1
             if i.type == pygame.MOUSEBUTTONDOWN:
                 if i.button == 1:
                     pos = pygame.mouse.get_pos()
                     y = pos[1] // 18
-                    x =pos[0] // 18
+                    x = pos[0] // 18
                     sos = 0
                     if self.game_pole.kletka(y, x).sost() == 0:
                         sos = 1
@@ -65,6 +65,18 @@ class GUI:
                             self.game_pole.kletka(y, x).next_sost(0)
                             self.game_pole.kletka(y, x).old_to_new()
                     gui.p()
+
+def bin(x):
+    ch = []
+    while(x != 0):
+        if ch != 1:
+            y = x % 2
+            ch.append(y)
+            x //= 2
+        else:
+            ch.append(1)
+            ch = 0
+    return ch
 
 
 if __name__ == '__main__':
