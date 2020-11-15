@@ -4,13 +4,13 @@ from pprint import pprint as pp
 import pygame
 from ChoToTam1 import Pole
 
-
 game = -1
 fps = 1
 
+
 class GUI:
     def __init__(self):
-        self.game_pole = Pole(30, 30)
+        self.game_pole = Pole(4, 4)
         self.width, self.height = self.game_pole.wifth_and_height()
         self.screen = pygame.display.set_mode((self.width * 18, self.height * 18 + 200))
 
@@ -32,6 +32,26 @@ class GUI:
     def hod(self):
         self.game_pole.hod()
 
+    def pred(self):
+        n = []
+        s = 0
+        podh = []
+        self.pred_pole = Pole(4, 4)
+        for i in range(2**(self.width * self.height)):
+            n = bin(i)
+            s = 0
+            for y in range(self.width):
+                for x in range(self.height):
+                    if s < len(n):
+                        self.pred_pole.kletka(y, x).next_sost(n[s])
+                        s += 1
+                        self.pred_pole.kletka(y, x).old_to_new()
+            self.pred_pole.hod()
+            if self.game_pole.kletki == self.pred_pole.kletki:
+                podh.append(i)
+        print(podh)
+
+
     def event(self):
         global fps
         global game
@@ -48,6 +68,8 @@ class GUI:
                     gui.p()
                 if i.key == pygame.K_SPACE:
                     game *= -1
+                if i.key == pygame.K_p:
+                    self.pred()
             if i.type == pygame.MOUSEBUTTONDOWN:
                 if i.button == 1:
                     pos = pygame.mouse.get_pos()
@@ -66,16 +88,12 @@ class GUI:
                             self.game_pole.kletka(y, x).old_to_new()
                     gui.p()
 
+
 def bin(x):
     ch = []
-    while(x != 0):
-        if ch != 1:
-            y = x % 2
-            ch.append(y)
-            x //= 2
-        else:
-            ch.append(1)
-            ch = 0
+    while x != 0:
+        ch.append(x % 2)
+        x //= 2
     return ch
 
 
@@ -89,4 +107,3 @@ if __name__ == '__main__':
             gui.hod()
             gui.p()
             pause.tick(fps)
-

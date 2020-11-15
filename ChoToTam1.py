@@ -12,6 +12,9 @@ class Kletka(object):
         self.sold = s
         self.snew = s
 
+    def __eq__(self, obj):
+        return isinstance(obj, Kletka) and self.sold == obj.sost() and self.cord() == obj.cord()
+
     def sost(self):
         return self.sold
 
@@ -79,6 +82,3 @@ class Pole(object):
 
     def kletka(self, x, y):
         return self.kletki[x][y]
-
-
-
