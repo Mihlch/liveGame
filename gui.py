@@ -6,11 +6,13 @@ from ChoToTam1 import Pole
 
 game = -1
 fps = 1
+width = 5
+height = 5
 
 
 class GUI:
     def __init__(self):
-        self.game_pole = Pole(4, 4)
+        self.game_pole = Pole(width, height)
         self.width, self.height = self.game_pole.wifth_and_height()
         self.screen = pygame.display.set_mode((self.width * 18, self.height * 18 + 200))
 
@@ -35,8 +37,7 @@ class GUI:
     def pred(self):
         n = []
         s = 0
-        podh = []
-        self.pred_pole = Pole(4, 4)
+        self.pred_pole = Pole(width, height)
         for i in range(2**(self.width * self.height)):
             n = bin(i)
             s = 0
@@ -48,9 +49,15 @@ class GUI:
                         self.pred_pole.kletka(y, x).old_to_new()
             self.pred_pole.hod()
             if self.game_pole.kletki == self.pred_pole.kletki:
-                podh.append(i)
-        print(podh)
-
+                break
+        for i in range(width*height):
+            if i % 5 == 0:
+                print()
+            if i < len(n):
+                print(n[i], end = " ")
+            else:
+                print(2, end = " ")
+        print()
 
     def event(self):
         global fps
@@ -66,6 +73,8 @@ class GUI:
                 if i.key == pygame.K_RIGHT:
                     gui.hod()
                     gui.p()
+                if i.key == pygame.K_LEFT:
+                    print(11)
                 if i.key == pygame.K_SPACE:
                     game *= -1
                 if i.key == pygame.K_p:
@@ -96,8 +105,17 @@ def bin(x):
         x //= 2
     return ch
 
+def des(x):
+    ch = 0
+    s = 0
+    while(x>0):
+        ch = (x%10)*(2**s)
+        x //= 10
+        s += 1
+    return ch
 
 if __name__ == '__main__':
+    print(des(111), )
     pause = pygame.time.Clock()
     gui = GUI()
     gui.p()
