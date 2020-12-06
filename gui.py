@@ -8,6 +8,7 @@ game = -1
 fps = 1
 width = 5
 height = 5
+znat = []
 
 
 class GUI:
@@ -31,7 +32,16 @@ class GUI:
             x = 0
         pygame.display.flip()
 
+    def zap(self):
+        global znat
+        n=[]
+        for y in range(self.width):
+            for x in range(self.height):
+                n.append(self.game_pole.kletka(x, y).sost())
+        znat.append(des(n))
+
     def hod(self):
+        self.zap()
         self.game_pole.hod()
 
     def pred(self):
@@ -46,17 +56,19 @@ class GUI:
                     if s < len(n):
                         self.pred_pole.kletka(y, x).next_sost(n[s])
                         s += 1
-                        self.pred_pole.kletka(y, x).old_to_new()
+                    else:
+                        self.game_pole.kletka(y, x).next_sost(0)
+                    self.game_pole.kletka(y, x).old_to_new()
             self.pred_pole.hod()
             if self.game_pole.kletki == self.pred_pole.kletki:
                 break
         for i in range(width*height):
-            if i % 5 == 0:
+            if i % width == 0:
                 print()
             if i < len(n):
-                print(n[i], end = " ")
+                print(n[i], end=" ")
             else:
-                print(2, end = " ")
+                print(0, end=" ")
         print()
 
     def event(self):
@@ -74,7 +86,18 @@ class GUI:
                     gui.hod()
                     gui.p()
                 if i.key == pygame.K_LEFT:
-                    print(11)
+                    n = bin(znat[0])
+                    s = 0
+                    for y in range(self.width):
+                        for x in range(self.height):
+                            if s < len(n):
+                                self.game_pole.kletka(y, x).next_sost(n[s])
+                                s += 1
+                                self.game_pole.kletka(y, x).old_to_new()
+                            else:
+                                self.game_pole.kletka(y, x).next_sost(0)
+                                self.game_pole.kletka(y, x).old_to_new()
+                    gui.p()
                 if i.key == pygame.K_SPACE:
                     game *= -1
                 if i.key == pygame.K_p:
@@ -106,16 +129,16 @@ def bin(x):
     return ch
 
 def des(x):
+    x.reverse()
     ch = 0
     s = 0
-    while(x>0):
-        ch = (x%10)*(2**s)
-        x //= 10
+    while(len(x)>s):
+        ch += x[s]*(2**s)
         s += 1
     return ch
 
 if __name__ == '__main__':
-    print(des(111), )
+    print(des([1, 1, 1]))
     pause = pygame.time.Clock()
     gui = GUI()
     gui.p()
